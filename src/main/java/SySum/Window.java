@@ -3,12 +3,14 @@ package SySum;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Window {
     private int m_width, m_height;
+    private long glfwWindow;
     private String m_title;
     private static Window window = null;
 
@@ -50,8 +52,26 @@ public class Window {
         glfwWindowHint(GLFW_MAXIMIZED, GLFW_MAXIMIZED);
 
         //create window
-        glfwWindow = glfwCreateWindow(this.m_width, this.m_width, this.m_title, NULL, NULL);
+        glfwWindow = glfwCreateWindow(this.m_width, this.m_height, this.m_title, NULL, NULL);
+        if (glfwWindow == NULL){
+            throw new IllegalStateException("Cannot Create GLFW window!");
+        }
 
+        //Make openGL Context Current
+        glfwMakeContextCurrent(glfwWindow);
+
+        //Enable V-sync
+        glfwSwapInterval(1); //enable sync according to user monitor when enabled v-sync
+
+        //make window visible
+        glfwShowWindow(glfwWindow);
+
+        //This line is critical for LWJGL interoperations wih GLFW
+        //OpenGL context, or any context that is managed externaly
+        //LWJGL detects context that is current to the current thread
+        //create GLCapabilities instance and make the OpenGL
+        //binding available to use.
+        GL.createCapabilities();
 
     }
 
