@@ -5,6 +5,7 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
 
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Window {
     private int m_width, m_height;
@@ -49,6 +50,7 @@ public class Window {
         glfwWindowHint(GLFW_MAXIMIZED, GLFW_MAXIMIZED);
 
         //create window
+        glfwWindow = glfwCreateWindow(this.m_width, this.m_width, this.m_title, NULL, NULL);
 
 
     }
